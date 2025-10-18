@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Coordinador</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Lista de Estudiantes</h2>
+    <a href="/logout" class="btn-logout">Cerrar Sesión</a>  <a href="/coordinador/crear-estudiante" class="btn-crear">Añadir Estudiante</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Programa</th>
+                <th>Nota General</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="est : ${estudiantes}">
+                <td th:text="${est.nombre}"></td>
+                <td th:text="${est.email}"></td>
+                <td th:text="${est.programa}"></td>
+                <td th:text="${est.notaGeneral}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
+

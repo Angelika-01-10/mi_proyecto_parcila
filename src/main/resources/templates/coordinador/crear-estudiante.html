@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Crear Estudiante</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="container">
+    <div class="card form-card">
+        <h2>Crear Nuevo Estudiante</h2>
+        <form th:action="@{/coordinador/crear-estudiante}" method="post">
+
+            <!-- Datos básicos -->
+            <div class="form-section">
+                <h3>Datos del Estudiante</h3>
+                <input type="text" name="nombre" placeholder="Nombre completo" required>
+                <input type="email" name="email" placeholder="Correo electrónico" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <input type="text" name="programa" placeholder="Programa" required>
+            </div>
+
+            <!-- Notas por materia -->
+            <div class="form-section">
+                <h3>Notas por Materia</h3>
+
+                <div class="materia-input">
+                    <label>Lectura Crítica</label>
+                    <input type="number" step="0.01" min="0" max="500" id="m0" name="materias[0].puntaje" required>
+                    <input type="hidden" name="materias[0].nombre" value="Lectura Crítica">
+                </div>
+
+                <div class="materia-input">
+                    <label>Matemáticas</label>
+                    <input type="number" step="0.01" min="0" max="500" id="m1" name="materias[1].puntaje" required>
+                    <input type="hidden" name="materias[1].nombre" value="Matemáticas">
+                </div>
+
+                <div class="materia-input">
+                    <label>Sociales y Ciudadanas</label>
+                    <input type="number" step="0.01" min="0" max="500" id="m2" name="materias[2].puntaje" required>
+                    <input type="hidden" name="materias[2].nombre" value="Sociales y Ciudadanas">
+                </div>
+
+                <div class="materia-input">
+                    <label>Ciencias Naturales</label>
+                    <input type="number" step="0.01" min="0" max="500" id="m3" name="materias[3].puntaje" required>
+                    <input type="hidden" name="materias[3].nombre" value="Ciencias Naturales">
+                </div>
+
+                <div class="materia-input">
+                    <label>Inglés</label>
+                    <input type="number" step="0.01" min="0" max="500" id="m4" name="materias[4].puntaje" required>
+                    <input type="hidden" name="materias[4].nombre" value="Inglés">
+                </div>
+            </div>
+
+            <!-- Nota general (calculada automáticamente) -->
+            <div class="form-section">
+                <h3>Nota General (automática)</h3>
+                <input type="number" step="0.01" min="0" max="500" id="notaGeneral" name="notaGeneral" placeholder="0.00" readonly>
+                <small>Se calcula automáticamente según las notas ingresadas</small>
+            </div>
+
+            <!-- Beneficios -->
+            <div class="form-section">
+                <h3>Beneficios</h3>
+                <div th:each="b : ${beneficios}">
+                    <label>
+                        <input type="checkbox" name="beneficios" th:value="${b.id}">
+                        <span th:text="${b.nombre} + ' (' + b.descripcion + ')'"></span>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Crear Estudiante</button>
+        </form>
+
+        <a href="/coordinador/lista" class="btn-crear">Volver a la lista</a>
+    </div>
+</div>
+
+<!-- Script para calcular la nota general automáticamente -->
+<script>
+    // IDs de los campos de materia
+    const materiasIds = ['m0', 'm1', 'm2', 'm3', 'm4'];
+    const notaGeneral = document.getElementById('notaGeneral');
+
+    function calcularNotaGeneral() {
+        let suma = 0;
+        let count = 0;
+        materiasIds.forEach(id => {
+            const input = document.getElementById(id);
+            const valor = parseFloat(input.value);
+            if (!isNaN(valor)) {
+                suma += valor;
+                count++;
+            }
+        });
+
+        // Si quieres el promedio, usa: (suma / count)
+        const resultado = count > 0 ? (suma ) : 0;
+
+        notaGeneral.value = resultado.toFixed(2);
+    }
+
+    // Escuchar cambios en los inputs de materias
+    materiasIds.forEach(id => {
+        document.getElementById(id).addEventListener('input', calcularNotaGeneral);
+    });
+</script>
+</body>
+</html>

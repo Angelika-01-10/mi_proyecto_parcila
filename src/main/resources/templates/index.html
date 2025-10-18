@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Inicio</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h2>Bienvenido al Sistema</h2>
+        <p>Seleccione su rol para iniciar sesión:</p>
+        <form th:action="@{/login}" method="post" class="role-form">
+            <label><input type="radio" name="rol" value="COORDINADOR" required> Coordinador</label>
+            <label><input type="radio" name="rol" value="ESTUDIANTE" required> Estudiante</label>
+            <button type="submit">Siguiente</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
