@@ -1,0 +1,11 @@
+# Imagen base con Java 17
+FROM openjdk:17-jdk-slim
+
+# Copiar el archivo .jar generado
+COPY target/*.jar app.jar
+
+# Exponer el puerto
+EXPOSE 8080
+
+# Comando para ejecutar la app
+ENTRYPOINT ["java","-jar","/app.jar"]
